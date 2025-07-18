@@ -23,6 +23,13 @@ export default function Contact() {
     message: "",
   });
 
+  const [modalContent, setModalContent] = useState<{
+    title: string;
+    description: string;
+    messageId?: string;
+  } | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
@@ -32,45 +39,48 @@ export default function Contact() {
     message: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
+    setModalContent(null); // reset before new request
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success(data.message);
+    fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success === true) {
+          toast.success(data.message);
+          setSubmitStatus({
+            type: "success",
+            message: data.message,
+          });
+          setModalContent(data.modalContent);
+          setShowModal(true); // Show the modal
+          setFormData({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+          });
+        } else {
+          throw new Error(data.message || "Failed to send message");
+        }
+      })
+      .catch((error) => {
         setSubmitStatus({
-          type: "success",
-          message: "Message sent successfully!",
+          type: "error",
+          message: "Failed to send message. Please try again.",
         });
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-      } else {
-        throw new Error(data.message || "Failed to send message");
-      }
-    } catch (error) {
-      setSubmitStatus({
-        type: "error",
-        message: "Failed to send message. Please try again.",
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   const handleChange = (
@@ -86,14 +96,14 @@ export default function Contact() {
     {
       icon: Mail,
       label: "Email",
-      value: "your.email@example.com",
-      href: "mailto:your.email@example.com",
+      value: "mahmoodsabbir3087@gmail.com",
+      href: "mailto:mahmoodsabbir3087@gmail.com",
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+880 123 456 789",
-      href: "tel:+880123456789",
+      value: "+880 1516 564923",
+      href: "tel:+8801516564923",
     },
     {
       icon: MapPin,
@@ -341,6 +351,29 @@ export default function Contact() {
           </p>
         </motion.div>
       </div>
+
+      {showModal && modalContent && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+          <div className="bg-gray-800/90 p-6 rounded-lg border border-green-600 text-green-100 shadow-md transition-all w-full max-w-md mx-4">
+            <h4 className="text-xl font-semibold mb-2">{modalContent.title}</h4>
+            <p>{modalContent.description}</p>
+            {/* {modalContent.messageId && (
+              <p className="text-xs text-green-300 mt-2">
+                Message ID: {modalContent.messageId}
+              </p>
+            )} */}
+            <button
+              onClick={() => {
+                setShowModal(false);
+                setModalContent(null);
+              }}
+              className="mt-4 px-4 py-2 bg-green-600 rounded hover:bg-green-700 transition-colors duration-200 text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

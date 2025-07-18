@@ -9,7 +9,7 @@ const projects = [
     id: 1,
     title: "E-Commerce Platform",
     description:
-      "Full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.",
+      "Full-stack e-commerce solution with seamless user experience, secure payments, and a powerful admin panel.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
     github: "#",
@@ -20,7 +20,7 @@ const projects = [
     id: 2,
     title: "Task Management App",
     description:
-      "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+      "Collaborative task management with real-time sync, Kanban board, and intuitive UI.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["Next.js", "TypeScript", "Firebase", "Framer Motion"],
     github: "#",
@@ -31,7 +31,7 @@ const projects = [
     id: 3,
     title: "Weather Dashboard",
     description:
-      "Beautiful weather dashboard with location-based forecasts, interactive charts, and responsive design.",
+      "Dynamic weather dashboard featuring animated charts, sleek visuals, and mobile-friendly layout.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["React", "Chart.js", "OpenWeather API", "Material UI"],
     github: "#",
@@ -42,7 +42,7 @@ const projects = [
     id: 4,
     title: "Social Media App",
     description:
-      "Social media platform with real-time messaging, post sharing, and user profiles. Built with modern technologies.",
+      "Full-featured social platform with messaging, posts, real-time updates, and media uploads.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["Next.js", "Socket.io", "MongoDB", "Cloudinary"],
     github: "#",
@@ -53,7 +53,7 @@ const projects = [
     id: 5,
     title: "Portfolio Website",
     description:
-      "Responsive portfolio website with smooth animations, dark mode, and contact form integration.",
+      "Personal branding portfolio with sleek animations, contact integration, and responsive layout.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "EmailJS"],
     github: "#",
@@ -64,7 +64,7 @@ const projects = [
     id: 6,
     title: "Learning Management System",
     description:
-      "Complete LMS with course creation, student enrollment, progress tracking, and video streaming.",
+      "Educational platform with instructor tools, video streaming, and student progress tracking.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["React", "Express.js", "PostgreSQL", "AWS S3"],
     github: "#",
@@ -85,37 +85,34 @@ export default function Projects() {
       : projects.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 px-4">
+    <section
+      id="projects"
+      className="py-24 px-4 bg-gradient-to-br from-gray-950 to-black text-white"
+    >
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Featured Projects
-            </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+            My Projects
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
-            Showcasing some of my best work from 30+ completed projects
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Explore a selection of my most impactful and polished projects.
           </p>
-
-          {/* Category Filter */}
-          <div className="flex justify-center space-x-4 mb-12">
+          <div className="mt-8 flex justify-center space-x-3">
             {categories.map((category) => (
               <motion.button
                 key={category}
-                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                className={`px-5 py-2 rounded-full border text-sm font-medium backdrop-blur-md transition-all duration-300 hover:border-purple-500 hover:text-purple-400 ${
                   activeCategory === category
-                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-                    : "bg-gray-800 text-gray-400 hover:text-white"
+                    ? "border-purple-600 text-purple-300"
+                    : "border-gray-700 text-gray-400"
                 }`}
               >
                 {category}
@@ -124,92 +121,70 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
             layout
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10"
           >
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{
-                  duration: 0.5,
+                  duration: 0.4,
                   delay: index * 0.1,
-                  ease: [0.25, 0.1, 0.25, 1],
                 }}
-                whileHover={{
-                  y: -10,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 15,
-                  },
-                }}
-                onHoverStart={() => setHoveredProject(project.id)}
-                onHoverEnd={() => setHoveredProject(null)}
-                className="bg-gray-800/50 rounded-xl overflow-hidden backdrop-blur-sm border border-gray-700 hover:border-blue-500/50 transition-all duration-300 group"
+                className="relative group rounded-xl overflow-hidden bg-gradient-to-br from-gray-800/60 to-gray-900/60 p-5 border border-gray-700 hover:shadow-xl hover:shadow-purple-500/20 transition duration-300"
+                onMouseEnter={() => setHoveredProject(project.id)}
+                onMouseLeave={() => setHoveredProject(null)}
               >
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden rounded-md mb-4">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-48 object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Overlay buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{
-                      opacity: hoveredProject === project.id ? 1 : 0,
-                      y: hoveredProject === project.id ? 0 : 20,
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 flex items-center justify-center space-x-4"
-                  >
-                    <motion.a
-                      href={project.live}
-                      target="_blank"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-3 bg-blue-500 rounded-full text-white hover:bg-blue-600 transition-colors duration-200"
+                  {hoveredProject === project.id && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 bg-black/40 flex items-center justify-center gap-4"
                     >
-                      <Eye size={20} />
-                    </motion.a>
-                    <motion.a
-                      href={project.github}
-                      target="_blank"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-3 bg-gray-700 rounded-full text-white hover:bg-gray-600 transition-colors duration-200"
-                    >
-                      <Github size={20} />
-                    </motion.a>
-                  </motion.div>
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        className="p-3 bg-purple-600 hover:bg-purple-500 text-white rounded-full"
+                      >
+                        <Eye size={20} />
+                      </a>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                      >
+                        <Github size={20} />
+                      </a>
+                    </motion.div>
+                  )}
                 </div>
-
-                {/* Card Body */}
-                <div className="p-6">
+                <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-200">
+                    <h3 className="text-xl font-semibold text-white">
                       {project.title}
                     </h3>
-                    <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded-full">
                       {project.category}
                     </span>
                   </div>
-
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                  <p className="text-sm text-gray-400 mb-3">
                     {project.description}
                   </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
@@ -219,47 +194,11 @@ export default function Projects() {
                       </span>
                     ))}
                   </div>
-
-                  <div className="flex space-x-4">
-                    <a
-                      href={project.live}
-                      className="flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-200 text-sm"
-                      target="_blank"
-                    >
-                      <ExternalLink size={16} className="mr-1" />
-                      Live Demo
-                    </a>
-                    <a
-                      href={project.github}
-                      className="flex items-center text-gray-400 hover:text-gray-300 transition-colors duration-200 text-sm"
-                      target="_blank"
-                    >
-                      <Github size={16} className="mr-1" />
-                      Code
-                    </a>
-                  </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
-
-        {/* View All Projects Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-          >
-            View All Projects
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   );

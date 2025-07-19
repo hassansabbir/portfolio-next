@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { Code, Coffee, Globe, Users } from "lucide-react";
 import Image from "next/image";
-import profileImg from "../assets/profile.png";
+import profileImg from "../assets/20250613_090732.jpg";
+import Link from "next/link";
 
 const stats = [
   { icon: Code, label: "Projects Completed", value: "30+" },
@@ -31,7 +32,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.25, 0.1, 0.25, 1], // cubic-bezier easing for smoother motion
+      ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
@@ -53,8 +54,8 @@ export default function About() {
             </span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Passionate about creating beautiful, functional, and user-friendly
-            web experiences
+            Frontend-focused full stack developer passionate about building
+            fast, functional, and beautiful user experiences.
           </p>
         </motion.div>
 
@@ -67,34 +68,37 @@ export default function About() {
             className="space-y-6"
           >
             <h3 className="text-2xl font-semibold text-white">
-              Hello! I'm Mahmud Hasan Sabbir <br /> a Frontend Developer from
+              Hello! I'm Mahmud Hasan Sabbir <br /> a Full Stack Developer from
               Bangladesh
             </h3>
             <p className="text-gray-400 leading-relaxed">
-              With over 2 years of experience in web development, I've
-              successfully completed more than 30 projects ranging from simple
-              landing pages to complex web applications. I'm passionate about
-              creating pixel-perfect, responsive, and interactive user
-              interfaces.
+              I specialize in frontend engineering with React and Next.js, and
+              bring strong design system awareness, interactive UI building, and
+              performance-focused development to every project I take on.
             </p>
             <p className="text-gray-400 leading-relaxed">
-              My expertise spans across modern frontend technologies including
-              React, Next.js, TypeScript, and various CSS frameworks. I also
-              have experience with backend technologies like Node.js,
-              Express.js, and databases like MongoDB and Firebase.
+              My stack spans React, Next.js, TypeScript, Tailwind, Node.js,
+              MongoDB, and Firebase. With 2+ years of experience, I’ve built 30+
+              web apps — from landing pages to full-featured platforms —
+              consistently delivering value to users and clients.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 15,
-              }}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
+            <Link
+              href="https://drive.google.com/file/d/1myvx8U6W-NbqAgU6wzystwuBvSjH1BfT/view?usp=sharing"
+              target="_blank"
             >
-              Download Resume
-            </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 15,
+                }}
+                className="px-6 py-3 mt-5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
+              >
+                Download Resume
+              </motion.button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -126,7 +130,7 @@ export default function About() {
           viewport={{ once: true }}
           className="grid grid-cols-2 md:grid-cols-4 gap-8"
         >
-          {stats.map((stat, index) => (
+          {stats.map((stat) => (
             <motion.div
               key={stat.label}
               variants={itemVariants}

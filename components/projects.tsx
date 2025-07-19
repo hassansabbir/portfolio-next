@@ -7,69 +7,109 @@ import { ExternalLink, Github, Eye } from "lucide-react";
 const projects = [
   {
     id: 1,
-    title: "E-Commerce Platform",
+    title: "Port A Vacation Co.",
     description:
-      "Full-stack e-commerce solution with seamless user experience, secure payments, and a powerful admin panel.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS"],
+      "Port A Vacation Co. is a vacation rental platform offering cottages, cars, and golf cart bookings tailored to your travel dates and group size. Users can explore accommodations, browse amenities, and make hassle-free reservations in one place.",
+    image: "https://i.ibb.co/bRKjLhMt/Screenshot-2025-07-19-152708.png",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Redux Toolkit",
+      "Tailwind CSS",
+      "Ant Design",
+      "Framer Motion",
+    ],
     github: "#",
-    live: "#",
-    category: "Full Stack",
+    live: "https://portavacationco-website.vercel.app/",
+    category: "Frontend",
   },
   {
     id: 2,
-    title: "Task Management App",
+    title: "ModaBella",
     description:
-      "Collaborative task management with real-time sync, Kanban board, and intuitive UI.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["Next.js", "TypeScript", "Firebase", "Framer Motion"],
+      "ModaBella is a modern eCommerce platform offering stylish apparel for men, women, and children. Featuring a sleek, interactive design, it delivers a seamless and visually engaging shopping experience.",
+    image: "https://i.ibb.co/Fk4SDFTg/Screenshot-2025-07-19-151623.png",
+    technologies: [
+      "Next.js",
+      "JavaScript",
+      "React Query",
+      "Express.js",
+      "Firebase",
+      "MongoDB",
+      "Stripe",
+      "Tailwind CSS",
+    ],
     github: "#",
-    live: "#",
-    category: "Frontend",
+    live: "https://modabella-84ce4.web.app/",
+    category: "Full Stack",
   },
   {
     id: 3,
-    title: "Weather Dashboard",
+    title: "The Cannasseurs Club",
     description:
-      "Dynamic weather dashboard featuring animated charts, sleek visuals, and mobile-friendly layout.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "Chart.js", "OpenWeather API", "Material UI"],
+      "The Cannasseurs Club is a California-based B2B cannabis distribution platform offering a wide variety of premium products. Designed exclusively for licensed retailers, it streamlines bulk ordering with a focus on quality and compliance.",
+    image: "https://i.ibb.co/r2kfJp1z/Screenshot-2025-07-19-151518.png",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Redux Toolkit",
+      "Express.js",
+      "MongoDB",
+      "Stripe",
+      "Tailwind CSS",
+      "Ant Design",
+    ],
     github: "#",
-    live: "#",
-    category: "Frontend",
+    live: "https://doublet24.netlify.app/",
+    category: "Full Stack",
   },
   {
     id: 4,
-    title: "Social Media App",
+    title: "HealthCare Financial Consultation Website",
     description:
-      "Full-featured social platform with messaging, posts, real-time updates, and media uploads.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["Next.js", "Socket.io", "MongoDB", "Cloudinary"],
+      "HealthCare Financial Consultation is a platform where users can book expert consultations with doctors on healthcare finance topics. Featuring a global timezone-aware booking system and Zoom integration, it ensures seamless virtual sessions anywhere, anytime.",
+    image: "https://i.ibb.co/h170DWDJ/Screenshot-2025-07-19-151358.png",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Redux Toolkit",
+      "Express.js",
+      "MongoDB",
+      "Stripe",
+      "Tailwind CSS",
+      "Ant Design",
+    ],
     github: "#",
-    live: "#",
+    live: "https://hcfinconsults.com",
     category: "Full Stack",
   },
   {
     id: 5,
-    title: "Portfolio Website",
+    title: "WestFert",
     description:
-      "Personal branding portfolio with sleek animations, contact integration, and responsive layout.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "EmailJS"],
+      "Westfert is an administrative dashboard for a fertilizer production platform, enabling efficient management of products, employees, and customers. It streamlines task assignments, user oversight, and operational workflows from a centralized interface.",
+    image: "https://i.ibb.co/R4JJZ5TT/Screenshot-2025-07-19-151111.png",
+    technologies: ["React", "JavaScript", "Tailwind CSS", "Ant Design"],
     github: "#",
-    live: "#",
+    live: "https://westfert-dashboard.netlify.app/",
     category: "Frontend",
   },
   {
     id: 6,
-    title: "Learning Management System",
+    title: "Event Management System",
     description:
-      "Educational platform with instructor tools, video streaming, and student progress tracking.",
-    image: "/placeholder.svg?height=300&width=400",
-    technologies: ["React", "Express.js", "PostgreSQL", "AWS S3"],
+      "Event 360 is a modern event management web app offering subscription-based access to professional event planning services. With an interactive UI and sleek design, it delivers a smooth and engaging user experience from booking to execution.",
+    image: "https://i.ibb.co/nJkFv74/Screenshot-2025-07-19-151252.png",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Framer Motion",
+      "Tailwind CSS",
+      "Ant Design",
+    ],
     github: "#",
-    live: "#",
-    category: "Full Stack",
+    live: "https://event-manager365.netlify.app/",
+    category: "Frontend",
   },
 ];
 
@@ -97,8 +137,10 @@ export default function Projects() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-            My Projects
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              My Projects
+            </span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Explore a selection of my most impactful and polished projects.
@@ -162,13 +204,13 @@ export default function Projects() {
                       >
                         <Eye size={20} />
                       </a>
-                      <a
+                      {/* <a
                         href={project.github}
                         target="_blank"
                         className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-full"
                       >
                         <Github size={20} />
-                      </a>
+                      </a> */}
                     </motion.div>
                   )}
                 </div>

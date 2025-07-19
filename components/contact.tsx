@@ -347,7 +347,7 @@ export default function Contact() {
           className="text-center mt-16 pt-8 border-t border-gray-700"
         >
           <p className="text-gray-400">
-            © 2024 Frontend Developer Portfolio. Made with ❤️ in Bangladesh
+            © 2025 Mahmud Hasan Sabbir. All rights reserved.
           </p>
         </motion.div>
       </div>

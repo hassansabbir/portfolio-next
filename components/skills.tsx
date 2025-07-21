@@ -145,37 +145,73 @@ const skillVariants = {
 
 export default function Skills() {
   const [isLoaded, setIsLoaded] = useState(Array(allSkills.length).fill(false));
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Preload all skill images
-    const preloadImages = allSkills.map((skill) => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = skill.logo;
-        img.onload = resolve;
-        img.onerror = resolve; // Handle errors gracefully
-      });
-    });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-    // Set loaded state when all images are preloaded
-    Promise.all(preloadImages).then(() => {
-      setIsLoaded(Array(allSkills.length).fill(true));
-    });
+    const section = document.getElementById("skills");
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) observer.unobserve(section);
+    };
   }, []);
 
+  useEffect(() => {
+    if (!isVisible) return;
+
+    // Lazy load images as they become visible
+    const lazyLoad = () => {
+      allSkills.forEach((skill, index) => {
+        if (isLoaded[index]) return;
+
+        const img = new Image();
+        img.src = skill.logo;
+        img.onload = () => {
+          setIsLoaded((prev) => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+          });
+        };
+        img.onerror = () => {
+          setIsLoaded((prev) => {
+            const newState = [...prev];
+            newState[index] = true; // Mark as loaded to prevent retries
+            return newState;
+          });
+        };
+      });
+    };
+
+    const timer = setTimeout(lazyLoad, 300);
+    return () => clearTimeout(timer);
+  }, [isVisible]);
+
   return (
-    <section id="skills" className="py-20 px-4 bg-gray-800/50 overflow-hidden">
+    <section id="skills" className="py-20 px-4 bg-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Skills
+              Technical Skills
             </span>
           </h2>
           <motion.div
@@ -185,7 +221,7 @@ export default function Skills() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="h-1 w-24 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto mb-8"
           />
-          <p className="text-white text-xl max-w-3xl mx-auto">
+          <p className="text-gray-300 text-xl max-w-3xl mx-auto">
             Technologies I use to craft modern digital experiences
           </p>
         </motion.div>
@@ -195,14 +231,14 @@ export default function Skills() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="flex flex-wrap justify-center items-center gap-12 md:gap-16 lg:gap-20"
+          className="flex flex-wrap justify-center items-center gap-12 md:gap-16 lg:gap-16"
         >
           {allSkills?.map((skill, index) => (
             <motion.div
               key={skill.name}
               variants={skillVariants}
               whileHover={{
-                scale: 1.2,
+                scale: 1.15,
                 rotate: [0, -2, 5, 0],
                 zIndex: 50,
                 transition: {
@@ -211,105 +247,65 @@ export default function Skills() {
                 },
               }}
               whileTap={{ scale: 0.9 }}
-              className="group relative cursor-pointer flex items-center"
-              animate={{
-                y: [0, -12, 0, -8, 0],
-                rotate: [0, 2, 0, -2, 0],
-              }}
-              transition={{
-                duration: 4 + (index % 3),
-                repeat: Infinity,
-                delay: index * 0.1,
-                ease: "easeInOut",
-              }}
+              className="group relative cursor-pointer flex flex-col items-center justify-center"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileHover={{
-                  opacity: 1,
-                  scale: 1.3,
-                  rotate: 180,
-                }}
-                transition={{ duration: 0.3 }}
-                className={`absolute -inset-4 bg-gradient-to-r ${skill.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30`}
-              />
+              <div className="relative w-full flex justify-center">
+                {/* <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{
+                    opacity: 1,
+                    scale: 0.2,
+                    rotate: 180,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className={`absolute -inset-4 bg-gradient-to-r ${skill.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30`}
+                /> */}
+
+                {/* <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileHover={{
+                    opacity: 1,
+                    scale: 1.1,
+                    rotate: -90,
+                  }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className={`absolute -inset-2 bg-gradient-to-r ${skill.color} rounded-xl blur-md opacity-0 group-hover:opacity-50`}
+                /> */}
+
+                <motion.div
+                  className="relative z-10 p-3 rounded-xl bg-gray-800 backdrop-blur-sm border border-gray-700 group-hover:border-white/20 transition-all duration-300 w-24 h-24 flex items-center justify-center"
+                  whileHover={{
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
+                  }}
+                >
+                  {isLoaded[index] ? (
+                    <motion.img
+                      src={skill.logo}
+                      alt={skill.name}
+                      className="w-14 h-14 object-contain transition-all duration-300"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  ) : (
+                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg w-14 h-14 flex items-center justify-center">
+                      <div className="w-6 h-6 border-t-2 border-blue-500 border-solid rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                </motion.div>
+              </div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileHover={{
-                  opacity: 1,
-                  scale: 1.1,
-                  rotate: -90,
-                }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className={`absolute -inset-2 bg-gradient-to-r ${skill.color} rounded-xl blur-md opacity-0 group-hover:opacity-50`}
-              />
-
-              <motion.div
-                className="relative z-10 p-3 rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 group-hover:border-white/20 transition-all duration-300"
-                whileHover={{
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-                }}
+                initial={{ opacity: 0, y: 5 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="mt-4 text-center"
               >
-                {isLoaded[index] ? (
-                  <motion.img
-                    src={skill.logo}
-                    alt={skill.name}
-                    className="w-16 h-16 md:w-20 md:h-20 lg:w-16 lg:h-16 object-contain transition-all duration-300"
-                    whileHover={{
-                      filter: "drop-shadow(0 10px 20px rgba(255,255,255,0.2))",
-                    }}
-                  />
-                ) : (
-                  <div className="bg-gray-700 rounded-lg animate-pulse w-16 h-16 md:w-20 md:h-20 lg:w-16 lg:h-16" />
-                )}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                whileHover={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                }}
-                transition={{ duration: 0.2 }}
-                className={`absolute -bottom-12 left-0 transform -translate-x-1/2 bg-gradient-to-r ${skill.color} p-[1px] rounded-lg pointer-events-none z-20`}
-              >
-                <div className="bg-gray-900 px-4 py-2 rounded-lg">
-                  <span className="text-white text-sm font-medium whitespace-nowrap">
-                    {skill.name}
-                  </span>
-                </div>
-                <div
-                  className={`absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900`}
-                />
-              </motion.div>
-
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                whileHover="hover"
-              >
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className={`absolute w-1 h-1 bg-gradient-to-r ${skill.color} rounded-full`}
-                    variants={{
-                      hover: {
-                        rotate: 360,
-                        scale: [1, 1.5, 1],
-                      },
-                    }}
-                    transition={{
-                      rotate: { duration: 2, repeat: Infinity, ease: "linear" },
-                      scale: { duration: 1, repeat: Infinity, delay: i * 0.2 },
-                    }}
-                    style={{
-                      left: `${50 + 30 * Math.cos((i * 120 * Math.PI) / 180)}%`,
-                      top: `${50 + 30 * Math.sin((i * 120 * Math.PI) / 180)}%`,
-                    }}
-                  />
-                ))}
+                <span className="text-gray-300 text-sm font-medium">
+                  {skill.name}
+                </span>
               </motion.div>
             </motion.div>
           ))}

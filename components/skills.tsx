@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const allSkills = [
   {
@@ -143,6 +144,25 @@ const skillVariants = {
 };
 
 export default function Skills() {
+  const [isLoaded, setIsLoaded] = useState(Array(allSkills.length).fill(false));
+
+  useEffect(() => {
+    // Preload all skill images
+    const preloadImages = allSkills.map((skill) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = skill.logo;
+        img.onload = resolve;
+        img.onerror = resolve; // Handle errors gracefully
+      });
+    });
+
+    // Set loaded state when all images are preloaded
+    Promise.all(preloadImages).then(() => {
+      setIsLoaded(Array(allSkills.length).fill(true));
+    });
+  }, []);
+
   return (
     <section id="skills" className="py-20 px-4 bg-gray-800/50 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -192,19 +212,17 @@ export default function Skills() {
               }}
               whileTap={{ scale: 0.9 }}
               className="group relative cursor-pointer flex items-center"
-              // Continuous wave animation
               animate={{
                 y: [0, -12, 0, -8, 0],
                 rotate: [0, 2, 0, -2, 0],
               }}
               transition={{
-                duration: 4 + (index % 3), // Varying duration for more organic feel
+                duration: 4 + (index % 3),
                 repeat: Infinity,
-                delay: index * 0.1, // Staggered delay for wave effect
+                delay: index * 0.1,
                 ease: "easeInOut",
               }}
             >
-              {/* Cool background effect on hover */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileHover={{
@@ -216,7 +234,6 @@ export default function Skills() {
                 className={`absolute -inset-4 bg-gradient-to-r ${skill.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30`}
               />
 
-              {/* Secondary glow effect */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileHover={{
@@ -228,7 +245,6 @@ export default function Skills() {
                 className={`absolute -inset-2 bg-gradient-to-r ${skill.color} rounded-xl blur-md opacity-0 group-hover:opacity-50`}
               />
 
-              {/* Icon container */}
               <motion.div
                 className="relative z-10 p-3 rounded-xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 group-hover:border-white/20 transition-all duration-300"
                 whileHover={{
@@ -236,17 +252,20 @@ export default function Skills() {
                   boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
                 }}
               >
-                <motion.img
-                  src={skill.logo}
-                  alt={skill.name}
-                  className="w-16 h-16 md:w-20 md:h-20 lg:w-16 lg:h-16 object-contain transition-all duration-300"
-                  whileHover={{
-                    filter: "drop-shadow(0 10px 20px rgba(255,255,255,0.2))",
-                  }}
-                />
+                {isLoaded[index] ? (
+                  <motion.img
+                    src={skill.logo}
+                    alt={skill.name}
+                    className="w-16 h-16 md:w-20 md:h-20 lg:w-16 lg:h-16 object-contain transition-all duration-300"
+                    whileHover={{
+                      filter: "drop-shadow(0 10px 20px rgba(255,255,255,0.2))",
+                    }}
+                  />
+                ) : (
+                  <div className="bg-gray-700 rounded-lg animate-pulse w-16 h-16 md:w-20 md:h-20 lg:w-16 lg:h-16" />
+                )}
               </motion.div>
 
-              {/* Enhanced skill name tooltip */}
               <motion.div
                 initial={{ opacity: 0, y: 10, scale: 0.8 }}
                 whileHover={{
@@ -262,13 +281,11 @@ export default function Skills() {
                     {skill.name}
                   </span>
                 </div>
-                {/* Arrow */}
                 <div
                   className={`absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900`}
                 />
               </motion.div>
 
-              {/* Orbiting particles effect */}
               <motion.div
                 className="absolute inset-0 pointer-events-none"
                 whileHover="hover"
@@ -298,7 +315,6 @@ export default function Skills() {
           ))}
         </motion.div>
 
-        {/* Enhanced decorative elements */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -325,7 +341,6 @@ export default function Skills() {
           ))}
         </motion.div>
 
-        {/* Background animated shapes */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(6)].map((_, i) => (
             <motion.div

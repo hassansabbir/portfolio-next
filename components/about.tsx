@@ -116,7 +116,7 @@ export default function About() {
                   alt="profileImage"
                   width={4646546}
                   height={24354354}
-                  className="rounded-full object-cover"
+                  className="rounded-full w-full h-full object-cover"
                 />
               </div>
             </div>

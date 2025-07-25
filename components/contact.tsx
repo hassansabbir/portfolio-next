@@ -12,6 +12,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  Facebook,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -114,9 +115,17 @@ export default function Contact() {
   ];
 
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Github, href: "https://github.com/hassansabbir", label: "GitHub" },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/mahmud-hasan-sabbir-87nsm/",
+      label: "LinkedIn",
+    },
+    {
+      icon: Facebook,
+      href: "https://www.facebook.com/mahmood.sabbir.9",
+      label: "Facebook",
+    },
   ];
 
   return (

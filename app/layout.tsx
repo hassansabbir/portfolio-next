@@ -7,12 +7,11 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Frontend Developer Portfolio - Bangladesh",
+  title: "Sabbir's Portfolio",
   description:
     "Experienced frontend developer from Bangladesh with 2+ years experience and 30+ completed projects. Specialized in React, Next.js, TypeScript, and modern web technologies.",
   keywords:
     "frontend developer, web developer, React, Next.js, TypeScript, Bangladesh, portfolio",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({

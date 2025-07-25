@@ -17,7 +17,6 @@ export default function Hero() {
     "Full Stack Developer",
     "Frontend Specialist",
     "MERN Stack Expert",
-    "Frontend Architect",
   ];
 
   const subtitleText = "From Bangladesh 🇧🇩";
@@ -309,13 +308,13 @@ export default function Hero() {
             },
             {
               icon: Linkedin,
-              href: "#",
+              href: "https://www.linkedin.com/in/mahmud-hasan-sabbir-87nsm/",
               label: "LinkedIn",
               color: "hover:from-blue-600 hover:to-blue-800",
             },
             {
               icon: Mail,
-              href: "#contact",
+              href: "https://mail.google.com/mail/?view=cm&fs=1&to=mahmoodsabbir3087@gmail.com",
               label: "Contact",
               color: "hover:from-green-500 hover:to-green-700",
             },

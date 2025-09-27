@@ -5,10 +5,22 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Adds padding for fixed headers */
+    height: 100%;
   }
 
   body {
     @apply bg-gray-900 text-white;
+    overflow-x: hidden;
+    text-rendering: optimizeSpeed;
+    height: 100%;
+    overscroll-behavior: none; /* Prevents bouncing effect on some browsers */
+  }
+  
+  /* Smooth scrolling for all browsers */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -18,6 +30,60 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Performance optimization classes */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .hardware-accelerated {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .animation-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+  
+  .transition-optimized {
+    transition-property: transform, opacity;
+    will-change: transform, opacity;
+  }
+  
+  /* Smooth scrolling utilities */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  .scroll-container {
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    height: 100vh;
+  }
+  
+  .scroll-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -38,17 +104,18 @@
   @apply from-blue-400 to-purple-400;
 }
 
-/* Smooth animations */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
-    transform, filter, backdrop-filter;
+/* Selective animations - only apply transitions to specific properties */
+a, button, input, select, textarea {
+  transition-property: color, background-color, border-color, opacity, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Improved animations */
+/* Improved animations with performance optimizations */
 .animate-float {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @keyframes float {
@@ -66,6 +133,7 @@
 /* Optimize animations for better performance */
 .will-change-transform {
   will-change: transform;
+  transform: translateZ(0);
 }
 
 .will-change-opacity {
@@ -75,4 +143,14 @@
 /* Smoother transitions */
 .transition-smooth {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduce animation motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -54,11 +54,21 @@ export default function Navbar() {
               <motion.a
                 key={item.name}
                 href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector(item.href);
+                  if (target) {
+                    window.scrollTo({
+                      top: target.getBoundingClientRect().top + window.scrollY - 80,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.1 }}
-                className="text-gray-300 hover:text-white transition-colors duration-200 relative group"
+                className="text-gray-300 hover:text-white transition-colors duration-200 relative group hardware-accelerated"
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300" />
@@ -96,6 +106,17 @@ export default function Navbar() {
                 <motion.a
                   key={item.name}
                   href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const target = document.querySelector(item.href);
+                    if (target) {
+                      setIsOpen(false);
+                      window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.scrollY - 80,
+                        behavior: 'smooth'
+                      });
+                    }
+                  }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -103,8 +124,7 @@ export default function Navbar() {
                     duration: 0.3,
                     ease: "easeOut",
                   }}
-                  onClick={() => setIsOpen(false)}
-                  className="block py-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  className="block py-2 text-gray-300 hover:text-white transition-colors duration-200 hardware-accelerated"
                 >
                   {item.name}
                 </motion.a>

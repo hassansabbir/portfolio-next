@@ -1,54 +1,59 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
-import { gsap } from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { initScrollReveal, initScrollProgress } from "@/lib/scroll-utils"
-import Hero from "@/components/hero"
-import About from "@/components/about"
-import Skills from "@/components/skills"
-import Projects from "@/components/projects"
-import Contact from "@/components/contact"
-import Navbar from "@/components/navbar"
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { initScrollReveal, initScrollProgress } from "@/lib/scroll-utils";
+import Hero from "@/components/hero";
+import About from "@/components/about";
+import Skills from "@/components/skills";
+import Projects from "@/components/projects";
+import Contact from "@/components/contact";
+import Navbar from "@/components/navbar";
 
 // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     // Optimize scroll tracking
-    container: typeof window !== "undefined" ? window.document.documentElement : undefined,
-  })
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const prefersReducedMotion = useReducedMotion()
-  
+    container: containerRef,
+  });
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const prefersReducedMotion = useReducedMotion();
+
   // Track if animations have been initialized
-  const [animationsInitialized, setAnimationsInitialized] = useState(false)
+  const [animationsInitialized, setAnimationsInitialized] = useState(false);
 
   useEffect(() => {
     // Prevent multiple initializations
-    if (animationsInitialized) return
-    
+    if (animationsInitialized) return;
+
     // Initialize scroll reveal animations
-    const cleanupScrollReveal = initScrollReveal()
-    
+    const cleanupScrollReveal = initScrollReveal();
+
     // Initialize scroll progress indicator
-    const cleanupScrollProgress = initScrollProgress()
-    
+    const cleanupScrollProgress = initScrollProgress();
+
     // Create a single GSAP context for better performance
     const ctx = gsap.context(() => {
       // Batch animations for better performance
       const tl = gsap.timeline();
-      
+
       // GSAP animations for scroll-triggered elements - with optimizations
-      const fadeElements = document.querySelectorAll(".fade-in")
-      
+      const fadeElements = document.querySelectorAll(".fade-in");
+
       if (fadeElements.length > 0) {
         // Use batched animations for better performance
-        gsap.set(fadeElements, { opacity: 0, y: 20 })
-        
+        gsap.set(fadeElements, { opacity: 0, y: 20 });
+
         fadeElements.forEach((element) => {
           ScrollTrigger.create({
             trigger: element,
@@ -64,7 +69,7 @@ export default function Home() {
                 ease: "power2.out",
                 overwrite: "auto", // Prevent animation conflicts
                 clearProps: "transform", // Clean up after animation
-              })
+              });
             },
             onLeaveBack: () => {
               gsap.to(element, {
@@ -72,15 +77,15 @@ export default function Home() {
                 y: 20,
                 duration: 0.5,
                 ease: "power1.in",
-              })
-            }
-          })
-        })
+              });
+            },
+          });
+        });
       }
 
       // Parallax effect for background elements - with optimizations
-      const parallaxElements = document.querySelectorAll(".parallax-bg")
-      
+      const parallaxElements = document.querySelectorAll(".parallax-bg");
+
       if (parallaxElements.length > 0) {
         parallaxElements.forEach((element) => {
           gsap.to(element, {
@@ -92,28 +97,28 @@ export default function Home() {
               end: "bottom top",
               scrub: 0.5, // Smoother scrolling
               invalidateOnRefresh: true, // Recalculate on window resize
-            }
-          })
-        })
+            },
+          });
+        });
       }
-    }, containerRef)
-    
+    }, containerRef);
+
     // Mark animations as initialized
-    setAnimationsInitialized(true)
-    
+    setAnimationsInitialized(true);
+
     // Cleanup function
     return () => {
       // Kill all ScrollTriggers to prevent memory leaks
-      ctx.revert()
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      cleanupScrollReveal && cleanupScrollReveal()
-      cleanupScrollProgress && cleanupScrollProgress()
-    }
-  }, [animationsInitialized, prefersReducedMotion])
+      ctx.revert();
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      cleanupScrollReveal && cleanupScrollReveal();
+      cleanupScrollProgress && cleanupScrollProgress();
+    };
+  }, [animationsInitialized, prefersReducedMotion]);
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="bg-gray-900 text-white overflow-x-hidden"
     >
       <Navbar />
@@ -141,5 +146,5 @@ export default function Home() {
         }}
       />
     </div>
-  )
+  );
 }

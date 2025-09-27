@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Sabbir's Portfolio",
   description:
-    "Experienced frontend developer from Bangladesh with 2+ years experience and 30+ completed projects. Specialized in React, Next.js, TypeScript, and modern web technologies.",
+    "Experienced frontend developer from Bangladesh with 2+ years experience and 30+ completed projects. Specialized in React, Next.js, TypeScript, and modern web technologies..",
   keywords:
     "frontend developer, web developer, React, Next.js, TypeScript, Bangladesh, portfolio",
 };

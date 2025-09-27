@@ -22,10 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    // Optimize scroll tracking
-    container: containerRef,
-  });
+  const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const prefersReducedMotion = useReducedMotion();
 
@@ -39,8 +36,7 @@ export default function Home() {
     // Initialize scroll reveal animations
     const cleanupScrollReveal = initScrollReveal();
 
-    // Initialize scroll progress indicator
-    const cleanupScrollProgress = initScrollProgress();
+    // Using Framer Motion for scroll progress instead
 
     // Create a single GSAP context for better performance
     const ctx = gsap.context(() => {
@@ -112,7 +108,6 @@ export default function Home() {
       ctx.revert();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       cleanupScrollReveal && cleanupScrollReveal();
-      cleanupScrollProgress && cleanupScrollProgress();
     };
   }, [animationsInitialized, prefersReducedMotion]);
 
